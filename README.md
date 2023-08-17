@@ -1,21 +1,17 @@
 # Project
 
-A full functional voice-based low latency AI talk companion.  
+A seamless and real-time voice interaction with AI.  
+Uses faster_whisper and elevenlabs input streaming.  
+Offers low latency responses to spoken input.
 
-Uses faster_whisper and elevenlabs input streaming. 
-
-Responds to spoken words in real-time.
-
-📺 **[Watch a Demo Video](https://www.youtube.com/watch?v=lq_Q6y47iUU)** 
-
-You may get this faster as I'm limited to a 10Mbit/s connection here - thank you, Telekom Germany.
+**[🎥 Watch a Demo Video](https://www.youtube.com/watch?v=lq_Q6y47iUU)** 
+> **Note**: The demo is conducted on a 10Mbit/s connection, so actual performance might be more impressive on faster connections.
 
 ### Modes of Operation:
+1. **Hands-Free Mode** - Automatically detects speech using `voice_talk_vad.py`.
+2. **Manual Mode** - Toggle recording on/off with the spacebar using `voice_talk.py`.
 
-1. **Hands-Free Mode** - Use `voice_talk_vad.py` to automatically detect speech. 
-2. **Manual Mode** - Use `voice_talk.py` to toggle recording with the spacebar.
-
-## Setup 🛠
+## 🛠 Setup:
 
 ### 1. API Keys:
 
@@ -39,26 +35,27 @@ or
 ```bash
 python voice_talk.py
 ```
+## 🎙 How to Use:
 
-## Usage voice_talk_vad.py 🎙
+### For `voice_talk_vad.py`:
 
 Talk into your microphone.  
 Listen to the reply.
 
-## Usage voice_talk.py 🎙
+### For `voice_talk.py`:
 
 1. Press the **space bar** to initiate talk.
 2. Speak your heart out.
 3. Hit the **space bar** again once you're done.
 4. Listen to reply.
 
-## Contribution 🤝
+## 🤝 Contribute
 
-Feel free to fork, improve, and submit pull requests. For major changes, please open an issue first.
+Feel free to fork, improve, and submit pull requests. If you're considering significant changes or additions, please start by opening an issue.
 
-## Acknowledgements 💖
+## 💖 Acknowledgements
 
 Huge shoutout to:
-- The developers behind [faster_whisper](https://github.com/guillaumekln/faster-whisper).
-- [ElevenLabs](https://www.elevenlabs.io/) for the fast, crystal-clear voice API.
-- [OpenAI](https://www.openai.com/) for the GPT-4 model.
+- The hardworking developers behind [faster_whisper](https://github.com/guillaumekln/faster-whisper).
+- [ElevenLabs](https://www.elevenlabs.io/) for their cutting-edge voice API.
+- [OpenAI](https://www.openai.com/) for pioneering with the GPT-4 model.
