@@ -1,34 +1,44 @@
 # Project
 
-Full functional voicebased low latency ai talk companion in few lines of code using Faster_Whisper, OpenAI's GPT-4 and the ElevenLabs input streaming API. 
+A full functional voice-based low latency AI talk companion.  
 
-Responds to spoken words in realtime as a character (instead of an assistant).
+Uses faster_whisper and elevenlabs input streaming. 
 
-Use voice_talk_vad.py to automatically detect speech (talk with hands free).
+Responds to spoken words in real-time.
 
-Use voice_talk.py to toggle recording with the spacebar. 
+📺 **[Watch a Demo Video](https://www.youtube.com/watch?v=lq_Q6y47iUU)** 
+
+You may get this faster as I'm limited to a 10Mbit/s connection here - thank you, Telekom Germany.
+
+### Modes of Operation:
+
+1. **Hands-Free Mode** - Use `voice_talk_vad.py` to automatically detect speech. 
+2. **Manual Mode** - Use `voice_talk.py` to toggle recording with the spacebar.
 
 ## Setup 🛠
 
-1. **API Keys**:
-   - Replace `your_openai_key` and `your_elevenlabs_key` with your OpenAI and ElevenLabs API key values in the code.
+### 1. API Keys:
 
-2. **Dependencies**:
-   - Install the required Python libraries:
-     ```bash
-     pip install openai elevenlabs pyaudio wave keyboard faster_whisper numpy torch 
-     ```
+Replace `your_openai_key` and `your_elevenlabs_key` with your OpenAI and ElevenLabs API key values in the code.
 
-3. **Run the Script**:
-   - Execute the main script:
-     ```bash
-     python voice_talk_vad.py
-     ```
-	 
-	 or 
-     ```bash
-     python voice_talk.py
-     ```
+### 2. Dependencies:
+
+Install the required Python libraries:
+```bash
+pip install openai elevenlabs pyaudio wave keyboard faster_whisper numpy torch 
+```
+
+### 3. Run the Script:
+
+Execute the main script based on your mode preference:
+
+```bash
+python voice_talk_vad.py
+```
+or
+```bash
+python voice_talk.py
+```
 
 ## Usage voice_talk_vad.py 🎙
 
