@@ -1,8 +1,7 @@
 # Project
 
 A seamless and real-time voice interaction with AI.  
-Uses faster_whisper and elevenlabs input streaming.  
-Offers low latency responses to spoken input.
+Uses faster_whisper and elevenlabs input streaming for low latency responses to spoken input.
 
 **[🎥 Watch a Demo Video](https://www.youtube.com/watch?v=lq_Q6y47iUU)** 
 > **Note**: The demo is conducted on a 10Mbit/s connection, so actual performance might be more impressive on faster connections.
