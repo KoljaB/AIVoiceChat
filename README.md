@@ -6,9 +6,8 @@ Uses faster_whisper and elevenlabs input streaming for low latency responses to 
 **[🎥 Watch a Demo Video](https://www.youtube.com/watch?v=lq_Q6y47iUU)** 
 > **Note**: The demo is conducted on a 10Mbit/s connection, so actual performance might be more impressive on faster connections.
 
-### Modes of Operation:
-1. **Hands-Free Mode** - Automatically detects speech using `voice_talk_vad.py`.
-2. **Manual Mode** - Toggle recording on/off with the spacebar using `voice_talk.py`.
+`voice_talk_vad.py` - automatically detects speech  
+`voice_talk.py` - toggle recording on/off with the spacebar
 
 ## 🛠 Setup:
 
