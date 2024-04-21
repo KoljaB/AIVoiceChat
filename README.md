@@ -1,5 +1,7 @@
 Seamless and real-time voice interaction with AI.  
 
+> **Hint:** *Anybody interested in state-of-the-art voice solutions please also <strong>have a look at [Linguflex](https://github.com/KoljaB/Linguflex)</strong>. It lets you control your environment by speaking and is one of the most capable and sophisticated open-source assistants currently available.*
+
 Uses faster_whisper and elevenlabs input streaming for low latency responses to spoken input.
 
 **[🎥 Watch a Demo Video](https://www.youtube.com/watch?v=lq_Q6y47iUU)** 
