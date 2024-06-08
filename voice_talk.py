@@ -1,7 +1,11 @@
-import openai, elevenlabs, pyaudio, wave, keyboard, faster_whisper, torch.cuda
+from openai import OpenAI
+import pyaudio, wave, keyboard, faster_whisper, torch.cuda, os
+from elevenlabs.client import ElevenLabs
+from elevenlabs import stream
 
-openai.api_key = "your_openai_key"
-elevenlabs.set_api_key("your_elevenlabs_key")
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
+openai_client = OpenAI(api_key="your_openai_key")
+elevenlabs_client = ElevenLabs(api_key="your_elevenlabs_key")
 
 system_prompt = {
     'role': 'system', 
@@ -13,11 +17,13 @@ model, answer, history = faster_whisper.WhisperModel(model_size_or_path="tiny.en
 def generate(messages):
     global answer
     answer = ""
-    for chunk in openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages, stream=True):
-        if (text_chunk := chunk["choices"][0]["delta"].get("content")):
+        
+    for chunk in openai_client.chat.completions.create(model="gpt-3.5-turbo", messages=messages, stream=True):
+        if (text_chunk := chunk.choices[0].delta.content):
             answer += text_chunk
             print(text_chunk, end="", flush=True) 
             yield text_chunk
+
 
 while True:
     # Wait until user presses space bar
@@ -28,10 +34,10 @@ while True:
     # Record from microphone until user presses space bar again
     print("I'm all ears. Tap space when you're done.\n")
     audio, frames = pyaudio.PyAudio(), []
-    stream = audio.open(rate=16000, format=pyaudio.paInt16, channels=1, input=True, frames_per_buffer=512)
+    py_stream = audio.open(rate=16000, format=pyaudio.paInt16, channels=1, input=True, frames_per_buffer=512)
     while not keyboard.is_pressed('space'): 
-        frames.append(stream.read(512))
-    stream.stop_stream(), stream.close(), audio.terminate()
+        frames.append(py_stream.read(512))
+    py_stream.stop_stream(), py_stream.close(), audio.terminate()
 
     # Transcribe recording using whisper
     with wave.open("voice_record.wav", 'wb') as wf:
@@ -43,5 +49,5 @@ while True:
 
     # Generate and stream output
     generator = generate([system_prompt] + history[-10:])
-    elevenlabs.stream(elevenlabs.generate(text=generator, voice="Nicole", model="eleven_monolingual_v1", stream=True))
+    stream(elevenlabs_client.generate(text=generator, voice="Nicole", model="eleven_monolingual_v1", stream=True))
     history.append({'role': 'assistant', 'content': answer})
