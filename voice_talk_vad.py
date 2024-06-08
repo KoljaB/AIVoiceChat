@@ -1,7 +1,12 @@
-import openai, elevenlabs, pyaudio, wave, numpy, collections, faster_whisper, torch.cuda
+from openai import OpenAI
+import pyaudio, wave,  wave, numpy, collections, faster_whisper, torch.cuda, os
+from elevenlabs.client import ElevenLabs
+from elevenlabs import stream
 
-openai.api_key = "your_openai_key"
-elevenlabs.set_api_key("your_elevenlabs_key")
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
+openai_client = OpenAI(api_key="your_openai_key")
+elevenlabs_client = ElevenLabs(api_key="your_elevenlabs_key")
+
 
 system_prompt = {
     'role': 'system', 
@@ -12,9 +17,9 @@ model, answer, history = faster_whisper.WhisperModel(model_size_or_path="tiny.en
 
 def generate(messages):
     global answer
-    answer = ""
-    for chunk in openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages, stream=True):
-        if (text_chunk := chunk["choices"][0]["delta"].get("content")):
+    answer = ""        
+    for chunk in openai_client.chat.completions.create(model="gpt-3.5-turbo", messages=messages, stream=True):
+        if (text_chunk := chunk.choices[0].delta.content):
             answer += text_chunk
             print(text_chunk, end="", flush=True) 
             yield text_chunk
@@ -27,13 +32,13 @@ def get_levels(data, long_term_noise_level, current_noise_level):
 
 while True:
     audio = pyaudio.PyAudio()
-    stream = audio.open(rate=16000, format=pyaudio.paInt16, channels=1, input=True, frames_per_buffer=512)
+    py_stream = audio.open(rate=16000, format=pyaudio.paInt16, channels=1, input=True, frames_per_buffer=512)
     audio_buffer = collections.deque(maxlen=int((16000 // 512) * 0.5))
     frames, long_term_noise_level, current_noise_level, voice_activity_detected = [], 0.0, 0.0, False
 
     print("\n\nStart speaking. ", end="", flush=True)
     while True:
-        data = stream.read(512)
+        data = py_stream.read(512)
         pegel, long_term_noise_level, current_noise_level = get_levels(data, long_term_noise_level, current_noise_level)
         audio_buffer.append(data)
 
@@ -48,7 +53,7 @@ while True:
             ambient_noise_level = long_term_noise_level
             frames.extend(list(audio_buffer))
 
-    stream.stop_stream(), stream.close(), audio.terminate()        
+    py_stream.stop_stream(), py_stream.close(), audio.terminate()        
 
     # Transcribe recording using whisper
     with wave.open("voice_record.wav", 'wb') as wf:
@@ -60,5 +65,5 @@ while True:
 
     # Generate and stream output
     generator = generate([system_prompt] + history[-10:])
-    elevenlabs.stream(elevenlabs.generate(text=generator, voice="Nicole", model="eleven_monolingual_v1", stream=True))
+    stream(elevenlabs_client.generate(text=generator, voice="Nicole", model="eleven_monolingual_v1", stream=True))    
     history.append({'role': 'assistant', 'content': answer})
